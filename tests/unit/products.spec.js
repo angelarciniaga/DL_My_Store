@@ -1,14 +1,31 @@
 import { shallowMount, createLocalVue} from '@vue/test-utils';
 import Products from '@/components/Products.vue';
 import Vuex from 'vuex';
-import Store from '../../src/store/store';
+import Store from './mocks/store';
 
-const localVue = createLocalVue();
+
+const localVue = createLocalVue()
 localVue.use(Vuex)
-const store = new Vuex.Store(Store);
+const store = new Vuex.Store(Store)
 
 describe('Products.vue', () => {
-  
+  it('Filtra los productos', () => {
+    const productName = 'Computadora'
+    const productSearch = 'Teclado'
+    const wrapper = shallowMount(Products, {
+      localVue,
+      Vuex
+    })
+    wrapper.setData({
+      products: [
+        {name: productSearch},
+        {name: productName}
+      ]
+    })
+    const searchBox = wrapper.find('input')
+    searchBox.setValue(productSearch)
+    expect(wrapper.vm.search).toBe(productSearch)
+  })
 })
 
 /* import { expect } from 'chai'
@@ -61,5 +78,4 @@ describe('Products.vue', () => {
     addButton.trigger('click')
     expect(clickMethodStub.called).to.equal(true)
   })
-})
- */
+})*/
