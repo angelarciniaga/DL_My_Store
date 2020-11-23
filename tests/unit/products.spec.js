@@ -25,6 +25,20 @@ describe('Products.vue', () => {
     const searchBox = wrapper.find('input')
     searchBox.setValue(productSearch)
     expect(wrapper.vm.search).toBe(productSearch)
+  }),
+  it('Añade los productos al carro', () => {
+    const producto = {
+      name: 'Computadora',
+      price: 100.0,
+      qty: 1,
+    }
+    const wrapper = shallowMount(Products, {
+      localVue,
+      Vuex,
+      store
+    })
+    wrapper.vm.addToCart(producto)
+    expect(wrapper.vm.$store.getters.shoppingCart.list[0]).toEqual(producto)
   })
 })
 
